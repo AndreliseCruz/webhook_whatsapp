@@ -1,6 +1,11 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 5000
+
+// Imports dependencies and set up http server
+const 
+  request = require('request'),
+  express = require('express'),
+  body_parser = require('body-parser'),
+  app = express().use(body_parser.json()), // creates express http server
+  port = process.env.PORT || 5000;
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
