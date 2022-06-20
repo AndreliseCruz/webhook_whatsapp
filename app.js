@@ -38,7 +38,7 @@ app.post('/webhook', (req, res) => {
     console.log(req.body);
     /** UPDATE YOUR VERIFY TOKEN
     This will be the Verify Token value when you set up webhook**/
-    const VERIFY_TOKEN = 'EAAHQ99pBvgEBACBUGrBzbZCiG2gn5zCMUsETs7htVv8ZCFMfZCcABkZAP8wgD05Xpv3ykedUR2rEjzpsO9RScSCKlKMDeGUF9xhLmHYV34szND4qGTuE7sV1wsOPNKMttHBSTbc482dRbKXKNv2283wMHe1LN2b868VX3SJZCnoNllg9xWeQnXk8E7lwUbLHWZCZBXVllvyLghGODSGxo0k';
+    const VERIFY_TOKEN = process.env.fb_token;
     
     console.log("TOKEN + "+ VERIFY_TOKEN);
   
@@ -49,7 +49,6 @@ app.post('/webhook', (req, res) => {
     
     console.log("TOKEN + "+ token);
   
-      
     // Check if a token and mode were sent
     if (mode && token) {
     
