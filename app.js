@@ -30,10 +30,13 @@ app.post('/webhook', (req, res) => {
     
     // Validate the webhook
     if(reqbody.object){
-      res.sendStatus(200).json(reqbody);
+      //res.sendStatus(200).json(reqbody);
+      res.status(200).json(reqbody)
+
     } else {
       // Return a '404 Not Found' if event is not from a whatsApp API
-      res.sendStatus(404);
+      //res.sendStatus(404);
+      res.status(404);
     }
   
   });
@@ -51,9 +54,7 @@ app.post('/webhook', (req, res) => {
     let mode = req.query['hub.mode'];
     let token = req.query['hub.verify_token'];
     let challenge = req.query['hub.challenge'];
-    
-    console.log("TOKEN + "+ token);
-  
+      
     // Check if a token and mode were sent
     if (mode && token) {
     
@@ -62,11 +63,11 @@ app.post('/webhook', (req, res) => {
         
         // Respond with 200 OK and challenge token from the request
         console.log('WEBHOOK_VERIFIED');
-        res.status(200).send(challenge);
-      
+        res.status(200).send(challenge);      
       } else {
         // Responds with '403 Forbidden' if verify tokens do not match
-        res.sendStatus(403);      
+        //res.sendStatus(403);
+        res.status(403);
       }
     }
   })
