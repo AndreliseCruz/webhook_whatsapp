@@ -33,13 +33,11 @@ app.post('/webhook', (req, res) => {
     if(reqbody.object){
       //res.sendStatus(200).json(reqbody)
 
-      var lalala = reqbody.id;
-
-      console.log(lalala);
+      console.log(reqbody.entry[0].id); 
 
     //   var jsonToSend = {
     //     Mensagem: {
-    //         id: 'attr',
+    //         id: 1,
     //         waba_business_account_id: false,
     //         messaging_product: 'whatsapp',
     //         waba_phone_number: "555481154893",
