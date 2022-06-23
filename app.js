@@ -27,11 +27,36 @@ app.post('/webhook', (req, res) => {
     
     // Check the Incoming webhook message
     console.log("Incoming webhook: " + JSON.stringify(reqbody));
+
     
     // Validate the webhook
     if(reqbody.object){
-      //res.sendStatus(200).json(reqbody);
-      res.status(200).json(reqbody)
+      //res.sendStatus(200).json(reqbody)
+
+      var lalala = reqbody.id;
+
+      console.log(lalala);
+
+    //   var jsonToSend = {
+    //     Mensagem: {
+    //         id: 'attr',
+    //         waba_business_account_id: false,
+    //         messaging_product: 'whatsapp',
+    //         waba_phone_number: "555481154893",
+    //         waba_phone_number_id: "366451038726931",
+    //         sender_name: "Andrelise Cruz",
+    //         sender_wa_id: "555499443646",
+    //         message_from: "555499443646",
+    //         message_id: "wamid.HBgMNTU1NDk5NDQzNjQ2FQIAEhgUM0E2MTU3QjJFOEMyNzU0QUFFOTcA",
+    //         message_datetime: "2022-06-17 15:10:55",
+    //         message_body: "Teste",
+    //         message_type: "text",
+    //         field: "messages"
+    //     }
+    // };
+    
+      
+      res.status(200).json(reqbody);
 
     } else {
       // Return a '404 Not Found' if event is not from a whatsApp API
@@ -71,3 +96,8 @@ app.post('/webhook', (req, res) => {
       }
     }
   })
+
+  var myLogger = function (req, res, next) {
+    console.log('LOGGED');
+    next();
+  };
