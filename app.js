@@ -60,7 +60,8 @@ app.post('/webhook', (req, res) => {
 
       request('http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp', function (error, response, { body: jsonToSend }) {
         if (!error && response.statusCode == 200) {
-          console.log(body) 
+          console.log(body);
+          console.log("Enviou mensagem.");
         }
       });
       
