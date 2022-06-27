@@ -1,11 +1,15 @@
+'use strict';
 
 // Imports dependencies and set up http server
 const 
   request = require('request'),
   express = require('express'),
   body_parser = require('body-parser'),
-  app = express().use(body_parser.json()), // creates express http server
+  format = require('date-format'),
+  app = express().use(body_parser.json()),
   port = process.env.PORT || 5000;
+
+  var jsonToSend;
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -33,29 +37,33 @@ app.post('/webhook', (req, res) => {
     if(reqbody.object){
       //res.sendStatus(200).json(reqbody)
 
-      console.log(reqbody.entry[0].id); 
+      jsonToSend = {
+        Mensagem: {
+            id: 1,
+            waba_business_account_id: reqbody.entry[0].id,
+            messaging_product: reqbody.entry[0].changes[0].value.messaging_product,
+            waba_phone_number: reqbody.entry[0].changes[0].value.metadata.display_phone_number,
+            waba_phone_number_id: reqbody.entry[0].changes[0].value.metadata.phone_number_id,
+            sender_name: reqbody.entry[0].changes[0].value.contacts[0].profile.name,
+            sender_wa_id: reqbody.entry[0].changes[0].value.contacts[0].wa_id,
+            message_from: reqbody.entry[0].changes[0].value.messages[0].from,
+            message_id: reqbody.entry[0].changes[0].value.messages[0].id,
+            message_datetime: format(new Date()),
+            message_body: reqbody.entry[0].changes[0].value.messages[0].text.body,
+            message_type: reqbody.entry[0].changes[0].value.messages[0].type,
+            field: reqbody.entry[0].changes[0].field
+        }
+      };
 
-    //   var jsonToSend = {
-    //     Mensagem: {
-    //         id: 1,
-    //         waba_business_account_id: false,
-    //         messaging_product: 'whatsapp',
-    //         waba_phone_number: "555481154893",
-    //         waba_phone_number_id: "366451038726931",
-    //         sender_name: "Andrelise Cruz",
-    //         sender_wa_id: "555499443646",
-    //         message_from: "555499443646",
-    //         message_id: "wamid.HBgMNTU1NDk5NDQzNjQ2FQIAEhgUM0E2MTU3QjJFOEMyNzU0QUFFOTcA",
-    //         message_datetime: "2022-06-17 15:10:55",
-    //         message_body: "Teste",
-    //         message_type: "text",
-    //         field: "messages"
-    //     }
-    // };
-    
-      
+      console.log(JSON.stringify(jsonToSend));
       res.status(200).json(reqbody);
 
+      request('http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp', function (error, response, { body: jsonToSend }) {
+        if (!error && response.statusCode == 200) {
+          console.log(body) 
+        }
+      });
+      
     } else {
       // Return a '404 Not Found' if event is not from a whatsApp API
       //res.sendStatus(404);
@@ -94,8 +102,3 @@ app.post('/webhook', (req, res) => {
       }
     }
   })
-
-  var myLogger = function (req, res, next) {
-    console.log('LOGGED');
-    next();
-  };
