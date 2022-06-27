@@ -55,15 +55,32 @@ app.post('/webhook', (req, res) => {
         }
       };
 
-      console.log(JSON.stringify(jsonToSend));
       res.status(200).json(reqbody);
 
-      request('http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp', function (error, response, { body: jsonToSend }) {
-        if (!error && response.statusCode == 200) {
-          console.log(body);
-          console.log("Enviou mensagem.");
+      //request.post('http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp', { body: jsonToSend }, )
+
+      var clientServerOptions = {
+        uri: 'http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp',
+        body: JSON.stringify(jsonToSend),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
         }
+      }
+      request(clientServerOptions, function (error, response) {
+         console.log(error,response.body);
+          return;
       });
+
+      
+      // request('http://portal.valorizza.com.br/rest/PWsMensagemWhatsapp', function (error, response, { body: jsonToSend }) {
+      //   if (!error && response.statusCode == 200) {
+      //     console.log(body);
+      //     console.log("Enviou mensagem.");
+      //   } else{
+      //     console.log(error);
+      //   }
+      // });
       
     } else {
       // Return a '404 Not Found' if event is not from a whatsApp API
